@@ -45,7 +45,14 @@ const Index = () => {
         const id = target.getAttribute('href')?.slice(1);
         const element = document.getElementById(id || '');
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
+          const navbarHeight = 64; // Height of the fixed navbar
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
         }
       }
     };
@@ -104,7 +111,7 @@ const Index = () => {
       <TopicsSection />
 
       {/* Deadlines Section */}
-      <section className="section-padding bg-gray-50">
+      <section className="section-padding bg-gray-50" id="schedule">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-8">{t('deadlines.title')}</h2>
           <div className="max-w-3xl mx-auto space-y-4">
@@ -190,8 +197,8 @@ const Index = () => {
       <section className="section-padding bg-white">
         <div className="max-w-7xl mx-auto">
           <img 
-            src="/lovable-uploads/e5f577f5-d3bf-4c2e-b3a7-286995d5b7b3.png"
-            alt="Committee Photo"
+            src="/lovable-uploads/60405bd8-d8c8-43f0-af53-9e8cd7407734.png"
+            alt="Partners and Sponsors"
             className="w-full max-w-4xl mx-auto rounded-lg shadow-lg"
           />
         </div>

@@ -19,16 +19,16 @@ export function Navbar() {
           </div>
           
           <div className="hidden md:flex items-center space-x-8">
-            <Button variant="ghost" asChild>
+            <Button variant="ghost" className="hover:bg-primary/10" asChild>
               <a href="#about">{t('nav.about')}</a>
             </Button>
-            <Button variant="ghost" asChild>
+            <Button variant="ghost" className="hover:bg-primary/10" asChild>
               <a href="#schedule">{t('nav.schedule')}</a>
             </Button>
-            <Button variant="ghost" asChild>
+            <Button variant="ghost" className="hover:bg-primary/10" asChild>
               <a href="#speakers">{t('nav.speakers')}</a>
             </Button>
-            <Button variant="ghost" asChild>
+            <Button variant="ghost" className="hover:bg-primary/10" asChild>
               <a href="#partners">{t('nav.partners')}</a>
             </Button>
             <LanguageSwitch />
