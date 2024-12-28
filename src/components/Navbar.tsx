@@ -20,16 +20,12 @@ export function Navbar() {
           
           <div className="hidden md:flex items-center space-x-8">
             <Button variant="ghost" className="hover:bg-primary/10" asChild>
-              <a href="#about">{t('nav.about')}</a>
+              <a href="/">{t('nav.home')}</a>
             </Button>
             <Button variant="ghost" className="hover:bg-primary/10" asChild>
-              <a href="#schedule">{t('nav.schedule')}</a>
-            </Button>
-            <Button variant="ghost" className="hover:bg-primary/10" asChild>
-              <a href="#speakers">{t('nav.speakers')}</a>
-            </Button>
-            <Button variant="ghost" className="hover:bg-primary/10" asChild>
-              <a href="#partners">{t('nav.partners')}</a>
+              <a href="https://drive.google.com/file/d/1DWHcai4zbxPkfGtr2a22kyeaeJulo6Dl/view" target="_blank" rel="noopener noreferrer">
+                {t('nav.schedule')}
+              </a>
             </Button>
             <LanguageSwitch />
           </div>

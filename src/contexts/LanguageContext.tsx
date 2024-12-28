@@ -55,8 +55,7 @@ const translations = {
     'contact.email': 'Contact us at: sana.ben.abdallah@fsegs.usf.tn',
     'nav.about': 'About',
     'nav.schedule': 'Schedule',
-    'nav.speakers': 'Speakers',
-    'nav.partners': 'Partners',
+    'nav.home': 'Home',
   },
   fr: {
     'event.title': 'Finance Durable 2024',
@@ -98,6 +97,9 @@ const translations = {
     'fees.accommodation': 'Possibilité de réserver votre hébergement dans un hôtel approuvé par la FSEG Sfax',
     'fees.registration': 'Une fois votre communication acceptée, veuillez remplir ce',
     'fees.registration.form': 'formulaire d\'inscription',
+    'nav.about': 'À propos',
+    'nav.schedule': 'Programme',
+    'nav.home': 'Accueil',
   }
 };
 
