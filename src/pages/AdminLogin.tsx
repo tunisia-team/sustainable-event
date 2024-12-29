@@ -18,7 +18,19 @@ const AdminLogin = () => {
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        navigate("/");
+        // If logged in, check if admin
+        const { data: adminUser } = await supabase
+          .from('admin_users')
+          .select('email')
+          .eq('email', session.user.email)
+          .maybeSingle();
+
+        if (adminUser) {
+          navigate("/");
+        } else {
+          // If not admin, sign out
+          await supabase.auth.signOut();
+        }
       }
     };
     checkSession();
@@ -30,7 +42,7 @@ const AdminLogin = () => {
     
     try {
       // First sign in with password
-      const { error: signInError } = await supabase.auth.signInWithPassword({
+      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password
       });
@@ -41,6 +53,17 @@ const AdminLogin = () => {
           title: "Error",
           description: signInError.message
         });
+        setLoading(false);
+        return;
+      }
+
+      if (!signInData.user) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "No user found"
+        });
+        setLoading(false);
         return;
       }
 
@@ -48,7 +71,7 @@ const AdminLogin = () => {
       const { data: adminUser, error: adminError } = await supabase
         .from('admin_users')
         .select('email')
-        .eq('email', email)
+        .eq('email', signInData.user.email)
         .maybeSingle();
 
       if (adminError || !adminUser) {
@@ -59,6 +82,7 @@ const AdminLogin = () => {
           title: "Error",
           description: "Not authorized as admin"
         });
+        setLoading(false);
         return;
       }
 
