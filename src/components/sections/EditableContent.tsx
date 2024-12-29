@@ -33,15 +33,18 @@ export const EditableContent = ({ sectionKey, defaultContent, className }: Edita
         .from("content")
         .select("content")
         .eq("section_key", sectionKey)
-        .single();
+        .maybeSingle(); // Changed from .single() to .maybeSingle()
 
       if (!error && data) {
         setContent(data.content);
+      } else {
+        // If no content found, use default content
+        setContent(defaultContent);
       }
     };
 
     fetchContent();
-  }, [sectionKey]);
+  }, [sectionKey, defaultContent]);
 
   if (isAdmin) {
     return (

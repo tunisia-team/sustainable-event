@@ -5,7 +5,7 @@ type Language = 'en' | 'fr';
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: string) => string | string[];
+  t: (key: string) => string;
 }
 
 const translations = {
@@ -108,8 +108,10 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>('en');
 
-  const t = (key: string): string | string[] => {
-    return translations[language][key as keyof typeof translations.en] || key;
+  const t = (key: string): string => {
+    const translation = translations[language][key as keyof typeof translations.en];
+    // Ensure we always return a string
+    return Array.isArray(translation) ? translation.join(', ') : translation || key;
   };
 
   return (
