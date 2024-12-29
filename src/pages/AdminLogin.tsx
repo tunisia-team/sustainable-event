@@ -29,13 +29,31 @@ const AdminLogin = () => {
     setLoading(true);
     
     try {
-      const { data: adminUser } = await supabase
+      // First sign in with password
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (signInError) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: signInError.message
+        });
+        return;
+      }
+
+      // Then check if the user is an admin
+      const { data: adminUser, error: adminError } = await supabase
         .from('admin_users')
         .select('email')
         .eq('email', email)
-        .single();
+        .maybeSingle();
 
-      if (!adminUser) {
+      if (adminError || !adminUser) {
+        // If not an admin, sign out and show error
+        await supabase.auth.signOut();
         toast({
           variant: "destructive",
           title: "Error",
@@ -44,24 +62,12 @@ const AdminLogin = () => {
         return;
       }
 
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password
+      // If we get here, the user is successfully logged in as an admin
+      navigate("/");
+      toast({
+        title: "Success",
+        description: "Logged in successfully"
       });
-
-      if (error) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: error.message
-        });
-      } else {
-        navigate("/");
-        toast({
-          title: "Success",
-          description: "Logged in successfully"
-        });
-      }
     } catch (error) {
       toast({
         variant: "destructive",
