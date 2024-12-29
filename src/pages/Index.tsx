@@ -2,35 +2,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Navbar } from "@/components/Navbar";
 import { OrganizersSection } from "@/components/sections/OrganizersSection";
 import { TopicsSection } from "@/components/sections/TopicsSection";
-import { Card } from "@/components/ui/card";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { EditableContent } from "@/components/sections/EditableContent";
 import { useEffect } from "react";
-
-const committeeMembers = [
-  "Sana BEN ABDALLAH - FSEG Sfax, Tunisia",
-  "Karim KAMMOUN – ISGIS Sfax, Tunisia",
-  "Farhat BREIK – FSEG Sfax, Tunisia",
-  "Younes BOUJELBENE – FSEG Sfax, Tunisia",
-  "Bilel GARGOURI – FSEG Sfax, Tunisia",
-  "Foued Badr GABSI – FSEG Sfax, Tunisia",
-  "Nouri CHTOUROU – FSEG Sfax, Tunisia",
-  "Tarik EL MALKI – Group ISCAE, Morocco",
-  "Nabil JEDELANE – ENCG Tanger, Morocco",
-  "Mohamed Amine ISSAMI – Group ISCAE, Morocco",
-  "Dhafer SAIDANE – SKEMA Business School, France",
-  "Lobna BEN HSSEN – FSEG Sfax, Tunisia",
-  "Mouna BOUJELBANE – FSEG Sfax, Tunisia",
-  "Lamia BELGUITH – FSEG Sfax, Tunisia",
-  "Mohamed BEN AMAR – FSEG Sfax, Tunisia",
-  "Souhir ABBES – FSEG Sfax, Tunisia",
-  "Salma HICHRI – FSEG Sfax, Tunisia",
-  "Nahed ZGHIDI – ESC Sfax, Tunisia",
-  "Sofiene TIBA – FSEG Sfax, Tunisia",
-  "Maryam ELAMINE – FSEG Sfax, Tunisia",
-  "Ines KARRA – FSEG Sfax, Tunisia"
-];
-
-const scientificCommittee = `Abdelfatteh Bouri (FSEG Sfax) ; Abderrazak Ellouze (ESC Tunis) ; Azzelarab Zaoudi Mouagni (ISCAE Maroc) ; Adil BAMI (ISCAE Maroc) ; Ahmed Ghorbel (FSEG Sfax) ; Ahmed Hachicha (ESC Sfax) ; Alain Safa (UCA, France) ; Amine Lahiani (Université d'Orléans, France) ; Anis Bouabid, (FSEG Sousse) ; Anis Jarboui (ISAA Sfax) ; Babacar Sène (Université Cheikh Anta Diop, Sénégal) ; Bilel Gargouri (FSEG Sfax) ; Borhen Trigui (FSEG Sfax) ; Chafic Aloulou (FSEG Sfax) ; Claude Berthomieu (UCA, France) ; Désiré Avom (Université de Yaoundé, Cameroun) ; Dhafer Saidane (Skema Busuness School-UCA, France) ; Faiez Gargouri (Université de Sfax) ; Faouzi Sboui (FSEG Mahdia) ; Foued Badr Gabsi (FSEG Sfax) ; Ghazi Zouari (FSEG Sfax) ; Habib Affes (FSEG Sfax) ; Hamadi Fakhfakh (FSEG Sfax) ; Hatem Belhadjkacem (FSEG Sfax) ; Hatem SALAH (ESC Tunis) ; Houssam Bouzgarrou (ISFFS) ; Isabelle Rabaud (Université d'Orléans, France) ; Jamel Chouaibi (FSEG Sfax) ; Kamel Helali (FSEG Sfax) ; Kamel Naoui (ESC Tunis) ; Karim Aarab (ISCAE Maroc) ; Karim Charaf (ISCAE Maroc) ; Karim Mezghani (FSEG Sfax) ; Karima Bouzguenda (FSEG Sfax) ; Khouloud Boukadi (FSEG Sfax) ; Khoutem Ben Jdidia (ISCAE Manouba) ; Lamia Hadrich Belguith (FSEG Sfax) ; Lobna Ben Hassen (FSEG Sfax) ; Lotfi Khrifech (FSEG Sfax) ; Maher Gassab (ESC Tunis) ; Malek El Weriemmi (ISG Gabes) ; Mihaly Petreczky (CNRS Lille) ; Mohamed Amine Issami (Groupe ISCAE Maroc) ; Mohamed Ben Amar (FSEG Sfax) ; Mohamed Frikha (FSEG Tunis) ; Montej Abida (ESC Sfax) ; Mouna Abbes (FSEG Sfax) ; Mounir Smida (FSEG Sousse) ; Nabil Jedldane (Université Abdelmalek Essaâdi, Maroc) ; Nadia Abaoub (ESC Tunis) ; Nahed Zghidi (ESC Sfax) ; Nathalie Hilmi (Centre Scientifique de Monaco, France) ; Niazi Kammoun (IHEC Sfax) ; Nouri Chtourou (FSEG Sfax) ; Rim Hadiji (FSEG Sfax) ; Romdhane Khemakhem (FSEG Sfax) ; Salah Ben Hamed (FSEG Tunis) ; Salma Haj Khlifa (ISCAE Maroc) ; Salma Hichri (FSEG Sfax) ; Sami Aouadi (FSEG Tunis) ; Sami Ben Mim (IHEC Sousse) ; Sami Boudabbous (FSEG Sfax) ; Sami Hammami (FSEG Sfax) ; Siham Meknassi (Groupe ISCAE Maroc) ; Siwar Ellouz (ESC Sfax) ; Slaheddine Hellara (ISG Tunis) ; Slim Kallel (FSEG Sfax) ; Sonda Weli (FSEG Sfax) ; Sonia Zouari (ISAA Sfax) ; Souhir Abbes (FSEG Sfax) ; Srdjan Redzpagic (UCA, France) ; Tarik Elmalki (Groupe ISCAE Maroc) ; Tarik Saadi (ISCAE Maroc) ; Taicir Loukil (FSEG Sfax) ; Thierry Baudasse (Université d'Orléans, France) ; Younes Boujelbene (FSEG Sfax) ; Zouheir Abida (FSEG Sfax)`;
 
 const Index = () => {
   const { t } = useLanguage();
@@ -44,7 +17,7 @@ const Index = () => {
         const id = target.getAttribute('href')?.slice(1);
         const element = document.getElementById(id || '');
         if (element) {
-          const navbarHeight = 64; // Height of the fixed navbar
+          const navbarHeight = 64;
           const elementPosition = element.getBoundingClientRect().top;
           const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
 
@@ -67,20 +40,26 @@ const Index = () => {
       {/* Hero Section */}
       <section className="hero-gradient min-h-[80vh] flex items-center justify-center pt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-xl text-primary mb-4">{t('event.callForPapers')}</h2>
+          <h2 className="text-xl text-primary mb-4">
+            <EditableContent sectionKey="event_callForPapers" defaultContent={t('event.callForPapers')} />
+          </h2>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-primary mb-4">
-            {t('event.title')}
+            <EditableContent sectionKey="event_title" defaultContent={t('event.title')} />
           </h1>
           <p className="text-2xl sm:text-3xl text-gray-600 mb-4">
-            {t('event.subtitle')}
+            <EditableContent sectionKey="event_subtitle" defaultContent={t('event.subtitle')} />
           </p>
           <p className="text-xl sm:text-2xl text-gray-600 mb-6">
-            {t('event.subtitle2')}
+            <EditableContent sectionKey="event_subtitle2" defaultContent={t('event.subtitle2')} />
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-            <div className="text-lg font-semibold">{t('event.date')}</div>
+            <div className="text-lg font-semibold">
+              <EditableContent sectionKey="event_date" defaultContent={t('event.date')} />
+            </div>
             <div className="hidden sm:block">•</div>
-            <div className="text-lg font-semibold">{t('event.location')}</div>
+            <div className="text-lg font-semibold">
+              <EditableContent sectionKey="event_location" defaultContent={t('event.location')} />
+            </div>
           </div>
         </div>
       </section>
@@ -90,7 +69,9 @@ const Index = () => {
       {/* Honorary Guest Section */}
       <section className="section-padding bg-white">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-8">{t('event.honorary')}</h2>
+          <h2 className="text-3xl font-bold text-center mb-8">
+            <EditableContent sectionKey="event_honorary" defaultContent={t('event.honorary')} />
+          </h2>
           <Card className="max-w-3xl mx-auto p-8">
             <div className="flex flex-col md:flex-row items-center gap-8">
               <Avatar className="w-48 h-48">
