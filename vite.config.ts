@@ -14,7 +14,6 @@ export default defineConfig(({ mode }) => ({
     mode === 'development' &&
     componentTagger(),
   ].filter(Boolean),
-  base: '/' // or your subdirectory if needed
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
