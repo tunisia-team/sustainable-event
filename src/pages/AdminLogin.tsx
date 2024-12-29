@@ -14,7 +14,6 @@ const AdminLogin = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Check if user is already logged in
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
@@ -41,23 +40,25 @@ const AdminLogin = () => {
     setLoading(true);
     
     try {
-      // First sign in with password
+      console.log("Attempting to sign in with:", email);
       const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password
       });
 
       if (signInError) {
+        console.error("Sign in error:", signInError);
         toast({
           variant: "destructive",
-          title: "Error",
-          description: signInError.message
+          title: "Login Failed",
+          description: signInError.message || "Please check your credentials and try again"
         });
         setLoading(false);
         return;
       }
 
       if (!signInData.user) {
+        console.error("No user data returned");
         toast({
           variant: "destructive",
           title: "Error",
@@ -68,19 +69,32 @@ const AdminLogin = () => {
       }
 
       // Then check if the user is an admin
+      console.log("Checking admin status for:", signInData.user.email);
       const { data: adminUser, error: adminError } = await supabase
         .from('admin_users')
         .select('email')
         .eq('email', signInData.user.email)
         .maybeSingle();
 
-      if (adminError || !adminUser) {
-        // If not an admin, sign out and show error
+      if (adminError) {
+        console.error("Admin check error:", adminError);
         await supabase.auth.signOut();
         toast({
           variant: "destructive",
           title: "Error",
-          description: "Not authorized as admin"
+          description: "Error checking admin status"
+        });
+        setLoading(false);
+        return;
+      }
+
+      if (!adminUser) {
+        console.error("Not an admin user");
+        await supabase.auth.signOut();
+        toast({
+          variant: "destructive",
+          title: "Access Denied",
+          description: "This account is not authorized as an admin"
         });
         setLoading(false);
         return;
@@ -93,10 +107,11 @@ const AdminLogin = () => {
         description: "Logged in successfully"
       });
     } catch (error) {
+      console.error("Unexpected error:", error);
       toast({
         variant: "destructive",
         title: "Error",
-        description: "An error occurred"
+        description: "An unexpected error occurred"
       });
     } finally {
       setLoading(false);
